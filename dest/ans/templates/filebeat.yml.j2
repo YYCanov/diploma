@@ -1,9 +1,0 @@
-#jinja2: lstrip_blocks: "True"
-{{ filebeat_var_config | to_nice_yaml(indent=2) }}
-
-output.elasticsearch:
-  hosts: ["10.110.0.24:9200"]
-  protocol: "http"
-
-setup.kibana:
-  host: "10.110.0.13:5601"

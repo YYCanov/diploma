@@ -35,5 +35,4 @@ resource "yandex_compute_instance" "bastion" {
     ssh-keys = "debian:${file(var.public_key_path)}"
     user-data = file("metadata.yaml")
   }
-#   depends_on = [ yandex_compute_instance.node ]
 }
