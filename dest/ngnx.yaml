@@ -1,0 +1,33 @@
+---
+- hosts: all
+  gather_facts: True
+  become: true
+  become_method: sudo
+  become_user: root
+ 
+  tasks:    
+    - name: Install Nginx Web Server on Debian Family
+      apt:
+       name=nginx
+       state=latest
+ 
+    - systemd:
+       name: nginx
+       enabled: yes
+       state: started
+
+
+    - name: check for service nginx status
+      shell: service nginx status
+      ignore_errors: true
+      register: nginxstatus
+
+
+    - name: Show service nginx service status
+      debug:
+        msg: 'nginxstatus exists.'
+      when: nginxstatus.rc | int == 0
+
+    - name: Put to the index.html HOST name
+      shell:
+       cmd: sh -c "echo $(hostname | cut -d '.' -f 1 ) > /var/www/html/index.nginx-debian.html"

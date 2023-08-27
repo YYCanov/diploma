@@ -1,0 +1,34 @@
+- name: Install apt-transport-https, gnupg
+  apt: 
+    name: apt-transport-https,gnupg
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+- name: Download kibana 7.4.1
+  get_url:  
+    url: https://mirror.yandex.ru/mirrors/elastic/7/pool/main/k/kibana/kibana-7.4.1-amd64.deb 
+    dest: /home/debian/
+
+- name: Install Kibana
+  apt:
+    deb: /home/debian/kibana-7.4.1-amd64.deb 
+
+- name: Remove kibana-7.4.1-amd64.deb after installation
+  file:
+    path: /home/debian/kibana-7.4.1-amd64.deb
+    state: absent
+
+- name: Copy Kibana config file
+  template:
+    src: kibana.yml.j2
+    dest: /etc/kibana/kibana.yml
+    mode: 0644
+    owner: root
+    group: root
+  notify: restart_kibana
+
+- name: Start Kibana
+  systemd:
+    name: kibana.service
+    state: started
+    enabled: yes

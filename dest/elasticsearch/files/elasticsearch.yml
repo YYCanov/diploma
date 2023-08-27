@@ -1,0 +1,11 @@
+cluster.name: my-application
+node.name: yc-auto-instance-elasticsearch
+# node.roles: [ master, data, ingest ]
+# node.roles: [ master, data ]
+path.data: /var/lib/elasticsearch
+path.logs: /var/log/elasticsearch
+network.host: 0.0.0.0
+#http.host: 0.0.0.0
+http.port: 9200
+discovery.seed_hosts: ["127.0.0.1"]
+# cluster.initial_master_nodes: ["yc-auto-instance-elasticsearch"]
