@@ -5,22 +5,22 @@ variable "public_key_path" {
 
 variable "token" {
   description = "Yandex Cloud security OAuth token"
-  default = "y0_AgAAAAACLLmmAATuwQAAAADcHT5QtEfV30eURQugQeuLbUbdimzmQVc"
+  default = ""
 }
 
 variable "folder_id" {
   description = "Yandex Cloud Folder ID where resources will be created"
-  default = "b1g5gkld695kb9f0dbqv"
+  default = ""
 }
 
 variable "cloud_id" {
   description = "Yandex Cloud ID where resources will be created"
-  default = "b1g1134g6fp7combr7rf"
+  default = ""
 }
 
 variable "service_account_id" {
   description = "Yandex Cloud service accpunt ID whom resources will be created"
-  default = "ajetmhbj8n2207joaeac"
+  default = ""
 }
 
 variable "zone" {
