@@ -3,9 +3,13 @@ output "Load_Balancer_IP" {
 }
 
 output "Grafana_IP" {
-  value = yandex_compute_instance.grafana.network_interface.0.nat_ip_address
+  value = "${yandex_compute_instance.grafana.network_interface.0.nat_ip_address}:3000"
+}
+
+output "Prometheus_IP" {
+  value = "http://${yandex_compute_instance.prometheus.network_interface.0.ip_address}:9090"
 }
 
 output "Kibana_IP" {
-  value = yandex_compute_instance.kibana.network_interface.0.nat_ip_address
+  value = "${yandex_compute_instance.kibana.network_interface.0.nat_ip_address}:5601"
 }

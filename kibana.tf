@@ -8,13 +8,13 @@ resource "yandex_compute_instance" "kibana" {
   platform_id = var.instance_platform
 
   resources {
-    core_fraction = 20 # No need 100% for test
+    core_fraction = var.core_fraction_vm
     cores  = var.instance_cores
     memory = 3
   }
 
   scheduling_policy {
-    preemptible = true # No need fulltime for test
+    preemptible = var.scheduling_policy_vm
   }
 
   boot_disk {
@@ -34,6 +34,7 @@ resource "yandex_compute_instance" "kibana" {
   metadata = {
     ssh-keys = "debian:${file(var.public_key_path)}"
   }
+  depends_on = [ yandex_compute_instance.bastion ]
 }
 
 resource "local_file" "kibana" {
@@ -50,12 +51,11 @@ resource "local_file" "kibana" {
 resource "null_resource" "kibana" {
   provisioner "local-exec" {
     command = <<EOT
-      sleep 30;
       export ANSIBLE_HOST_KEY_CHECKING=False;
       export ANSIBLE_SSH_COMMON_ARGS='-o ProxyCommand="ssh -o StrictHostKeyChecking=no -i ./keys/id_ed25 debian@${yandex_compute_instance.bastion.network_interface.0.nat_ip_address} -W %h:%p"';
       ansible-playbook -u debian -i '${yandex_compute_instance.kibana.network_interface.0.ip_address},' --private-key=./keys/id_ed25 ./dest/kibana.yml
     EOT
   }
-  depends_on = [ local_file.kibana, yandex_compute_instance.kibana ]
+  depends_on = [ local_file.kibana, null_resource.node ]
 }
 

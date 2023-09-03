@@ -1,0 +1,20 @@
+#jinja2: lstrip_blocks: "True"
+{{ prometheus_var_config | to_nice_yaml(indent=2) }}
+
+- job_name: nodes_metrics
+  scrape_interval: 15s
+  metrics_path: /metrics
+  static_configs:
+  - targets:
+    - 10.110.0.11:9100
+    - 10.110.1.15:9100
+    - 10.110.2.29:9100
+
+- job_name: nginx_metrics
+  scrape_interval: 15s
+  metrics_path: /metrics
+  static_configs:
+  - targets:
+    - 10.110.0.11:4040
+    - 10.110.1.15:4040
+    - 10.110.2.29:4040

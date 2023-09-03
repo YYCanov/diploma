@@ -1,22 +1,43 @@
-- name: Install apt-transport-https, gnupg
+- name: Install apt-transport-https, gnupg2
   apt: 
-    name: apt-transport-https,gnupg
+    name: apt-transport-https,gnupg2
     state: present
     update_cache: yes
     cache_valid_time: 3600
+
+- name: Check kibana users
+  stat: path=/etc/htpasswd.users
+  ignore_errors: true
+  register: kibana_user_pwfile_exists
+  become: true
+  
 - name: Download kibana 7.4.1
   get_url:  
-    url: https://mirror.yandex.ru/mirrors/elastic/7/pool/main/k/kibana/kibana-7.4.1-amd64.deb 
+    url: https://mirror.yandex.ru/mirrors/elastic/7/pool/main/k/kibana/kibana-7.4.1-amd64.deb
     dest: /home/debian/
 
 - name: Install Kibana
   apt:
-    deb: /home/debian/kibana-7.4.1-amd64.deb 
+    deb: /home/debian/kibana-7.4.1-amd64.deb
+  become: true
+  ignore_errors: true
+  
 
 - name: Remove kibana-7.4.1-amd64.deb after installation
   file:
     path: /home/debian/kibana-7.4.1-amd64.deb
     state: absent
+
+# - name: Install Kibana package from the internet
+#   apt:
+#     # deb: https://mirror.yandex.ru/mirrors/elastic/7/pool/main/k/kibana/kibana-7.4.1-amd64.deb
+#     deb: http://mirror.yandex.ru/mirrors/elastic/7/pool/main/k/kibana/kibana-7.4.1-amd64.deb
+
+# - name: Systemctl daemon reload
+#   systemd:
+#     daemon_reload: true
+#     name: kibana.service
+#     state: started
 
 - name: Copy Kibana config file
   template:
@@ -25,10 +46,25 @@
     mode: 0644
     owner: root
     group: root
+  become: true
+  ignore_errors: true
   notify: restart_kibana
 
-- name: Start Kibana
-  systemd:
-    name: kibana.service
+- name: Create kibana admin user
+  command: htpasswd -b -c /etc/htpasswd.users {{kibana_user}} {{kibana_password}}
+  ignore_errors: true
+  when: kibana_user_pwfile_exists != 0
+  become: true
+
+- name: Setup kibana service
+  service: 
+    name: kibana
     state: started
-    enabled: yes
+    enabled: true
+  become: true
+
+# - name: Start Kibana
+#   systemd:
+#     name: kibana.service
+#     state: started
+#     enabled: yes

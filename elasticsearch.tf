@@ -8,13 +8,13 @@ resource "yandex_compute_instance" "elasticsearch" {
   platform_id = var.instance_platform
 
   resources {
-    core_fraction = 20 # No need 100% for test
+    core_fraction = var.core_fraction_vm
     cores  = var.instance_cores
     memory = 2
   }
 
   scheduling_policy {
-    preemptible = true # No need fulltime for test
+    preemptible = var.scheduling_policy_vm
   }
 
   boot_disk {

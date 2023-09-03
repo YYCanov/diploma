@@ -18,11 +18,6 @@ locals {
   # hostnames_ips = [yandex_compute_instance.node.*.hostname, yandex_compute_instance.node.*.network_interface.0.nat_ip_address]
 }
 
-data "yandex_compute_image" "base_image" {
-  # source_family = var.yc_image_family
-  family = var.yc_image_family
-}
-
 resource "yandex_compute_instance" "node" {
   folder_id   = var.folder_id
   service_account_id = var.service_account_id
@@ -34,13 +29,13 @@ resource "yandex_compute_instance" "node" {
   platform_id = var.instance_platform
 
   resources {
-    core_fraction = 20 # No need 100% for test
+    core_fraction = var.core_fraction_vm
     cores  = var.instance_cores
     memory = var.instance_memory
   }
 
   scheduling_policy {
-    preemptible = true # No need fulltime for test
+    preemptible = var.scheduling_policy_vm
   }
 
   boot_disk {
@@ -77,7 +72,7 @@ resource "null_resource" "node" {
       ansible-playbook -u debian -i '${element(local.internal_ips, count.index)},' --private-key=./keys/id_ed25 ./dest/ans.yml
     EOT
   }
-  depends_on = [ yandex_compute_instance.bastion, yandex_vpc_gateway.nat_gateway, yandex_compute_instance.elasticsearch ]
+  depends_on = [ yandex_compute_instance.bastion, yandex_vpc_gateway.nat_gateway, yandex_compute_instance.elasticsearch, local_file.filebeat_node ]
 }
 
 resource "local_file" "nodes" {

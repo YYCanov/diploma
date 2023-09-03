@@ -44,7 +44,7 @@ variable "yc_image_family" {
 # }
 
 variable "cluster_size" {
-  default = 2
+  default = 3
 }
 
 variable "instance_cores" {
@@ -64,4 +64,12 @@ variable "instance_platform" {
 
 variable "tg_gr_name" {
   default = "target_gr_my"
+}
+
+variable "scheduling_policy_vm" {
+  default = "true" # No need fulltime for test. "false" for unpreemptible
+}
+
+variable "core_fraction_vm" {
+  default = "20"  # No need 100% for test
 }

@@ -105,21 +105,6 @@ resource "yandex_vpc_security_group" "vm-bastion" {
     v4_cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # ingress {
-  #   protocol          = "TCP"
-  #   description       = "healthcheck"
-  #   security_group_id = yandex_vpc_security_group.alb-sg.id
-  #   port              = 80
-  # }
-
-  # ingress {
-  #   protocol          = "TCP"
-  #   # description       = ""
-  #   v4_cidr_blocks = ["0.0.0.0/0"]
-  #   from_port      = 30000
-  #   to_port        = 32767
-  # }
-
 ingress {
     protocol       = "TCP"
     description    = "SSH"
@@ -234,13 +219,12 @@ resource "yandex_vpc_security_group" "vm-kibana" {
   }
 
   ingress {
-    protocol       = "ANY"
+    protocol       = "TCP"
     description    = "ANY"
     v4_cidr_blocks = ["0.0.0.0/0"]
-    from_port      = 0
-    to_port        = 65535
+    port      = 5601
   }
-  
+
   ingress {
     protocol       = "TCP"
     description    = "ssh"
