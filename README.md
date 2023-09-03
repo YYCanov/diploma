@@ -48,17 +48,17 @@
 
 Протестируйте сайт `curl -v <публичный IP балансера>:80`
 
-<img src="/Users/canov/Documents/GitHub/diploma/diploma/pics/alb_check.png" alt="alb_check" style="zoom:50%;" />
+<img src="pics/alb_check.png" alt="alb_check" style="zoom:50%;" />
 
-<img src="/Users/canov/Documents/GitHub/diploma/diploma/pics/nginx0.png" alt="nginx0" style="zoom:50%;" />
+<img src="pics/nginx0.png" alt="nginx0" style="zoom:50%;" />
 
-<img src="/Users/canov/Documents/GitHub/diploma/diploma/pics/nginx1.png" alt="nginx1" style="zoom:50%;" />
+<img src="pics/nginx1.png" alt="nginx1" style="zoom:50%;" />
 
-<img src="/Users/canov/Documents/GitHub/diploma/diploma/pics/nginx2.png" alt="nginx2" style="zoom:50%;" />
+<img src="pics/nginx2.png" alt="nginx2" style="zoom:50%;" />
 
 <u>ВМ в варианте с тремя веб серверами - количество машин за alb задается в переменных.</u> 
 
-<img src="/Users/canov/Documents/GitHub/diploma/diploma/pics/VMs.png" alt="VMs" style="zoom:50%;" />
+<img src="pics/VMs.png" alt="VMs" style="zoom:50%;" />
 
 ### Мониторинг
 
@@ -66,9 +66,9 @@
 
 Создайте ВМ, установите туда Grafana. Настройте её на взаимодействие с ранее развернутым Prometheus. Настройте дешборды с отображением метрик, минимальный набор — Utilization, Saturation, Errors для CPU, RAM, диски, сеть, http_response_count_total, http_response_size_bytes. Добавьте необходимые [tresholds](https://grafana.com/docs/grafana/latest/panels/thresholds/) на соответствующие графики.
 
-<img src="/Users/canov/Documents/GitHub/diploma/diploma/pics/prometheus.png" alt="prometheus" style="zoom:50%;" />
+<img src="pics/prometheus.png" alt="prometheus" style="zoom:50%;" />
 
-![grafana](/Users/canov/Documents/GitHub/diploma/diploma/pics/grafana.png)
+![grafana](pics/grafana.png)
 
 
 
@@ -78,7 +78,7 @@ Cоздайте ВМ, разверните на ней Elasticsearch. Устан
 
 Создайте ВМ, разверните на ней Kibana, сконфигурируйте соединение с Elasticsearch.
 
-<img src="/Users/canov/Documents/GitHub/diploma/diploma/pics/kibana.png" alt="kibana" style="zoom:50%;" />
+<img src="pics/kibana.png" alt="kibana" style="zoom:50%;" />
 
 
 
@@ -92,9 +92,9 @@ Cоздайте ВМ, разверните на ней Elasticsearch. Устан
 
 <u>Подсети и группы безопасности:</u>
 
-<img src="/Users/canov/Documents/GitHub/diploma/diploma/pics/subnets.png" alt="subnets" style="zoom:50%;" />
+<img src="pics/subnets.png" alt="subnets" style="zoom:50%;" />
 
-<img src="/Users/canov/Documents/GitHub/diploma/diploma/pics/SGs.png" alt="SGs" style="zoom:50%;" />
+<img src="pics/SGs.png" alt="SGs" style="zoom:50%;" />
 
 
 
@@ -102,7 +102,7 @@ Cоздайте ВМ, разверните на ней Elasticsearch. Устан
 
 Создайте snapshot дисков всех ВМ. Ограничьте время жизни snaphot в неделю. Сами snaphot настройте на ежедневное копирование.
 
-<img src="/Users/canov/Documents/GitHub/diploma/diploma/pics/snapshots.png" alt="snapshots" style="zoom:50%;" />
+<img src="pics/snapshots.png" alt="snapshots" style="zoom:50%;" />
 
 ### Дополнительно
 
